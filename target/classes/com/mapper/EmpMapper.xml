@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.IEmpMapper">
+<insert id="save" parameterType="com.po.Emp">
+insert into emp(ename,sex,address,birthday,photo,depid) values(#{ename},#{sex},#{address},#{birthday},#{photo},#{depid})
+</insert>
+<delete id="delById" parameterType="java.lang.Integer">
+delete from emp where eid=#{eid}
+</delete>
+<update id="update" parameterType="com.po.Emp">
+update emp set ename=#{ename},sex=#{sex},address=#{address},birthday=#{birthday},photo=#{photo},depid=#{depid} where eid=#{eid}
+</update>
+<select id="findById" parameterType="java.lang.Integer" resultType="com.po.Emp">
+ select a.*,b.depname from emp a left join dep b on a.depid=b.depid where eid=#{eid}
+</select>
+ <select id="findPageAll" parameterType="com.po.PageBean" resultType="com.po.Emp">
+ select a.*,b.depname from emp a left join dep b on a.depid=b.depid order by a.eid limit ${(page-1)*rows},${rows}
+ </select>
+ <select id="findMaxRows" resultType="java.lang.Integer">
+ select count(*) from emp
+ </select>
+ <select id="findMaxEid" resultType="java.lang.Integer">
+ select max(eid) from emp
+ </select>
+</mapper>
